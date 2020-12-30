@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -13,7 +12,6 @@ namespace EpicBundle_FreeGames_dotnet {
 		}
 
 		public List<Dictionary<string, string>> LoadData(string path) {
-			Thread.Sleep(3000);
 			var content = File.ReadAllText(path);
 			return JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(content);
 		}

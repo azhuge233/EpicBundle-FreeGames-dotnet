@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using System.Text;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using HtmlAgilityPack;
-using ScrapySharp.Network;
 using ScrapySharp.Extensions;
-using System.Net;
 
 namespace EpicBundle_FreeGames_dotnet {
 	class Program {

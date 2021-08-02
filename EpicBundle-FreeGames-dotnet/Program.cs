@@ -11,7 +11,6 @@ namespace EpicBundle_FreeGames_dotnet {
 		private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 		private static readonly IConfigurationRoot config = new ConfigurationBuilder()
 				   .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-				   .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 				   .Build();
 		private static readonly string URL = "https://www.epicbundle.com/category/article/for-free/";
 

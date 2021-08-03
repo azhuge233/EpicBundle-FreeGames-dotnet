@@ -2,6 +2,17 @@
 
 [EpicBundle-FreeGames](https://github.com/azhuge233/EpicBundle-FreeGames) dotnet version
 
+## My Free Games Collection
+
+- SteamDB
+    - [https://github.com/azhuge233/SteamDB-FreeGames](https://github.com/azhuge233/SteamDB-FreeGames)(Python)
+    - [https://github.com/azhuge233/SteamDB-FreeGames-dotnet](https://github.com/azhuge233/SteamDB-FreeGames-dotnet)
+- EpicBundle
+    - [https://github.com/azhuge233/EpicBundle-FreeGames](https://github.com/azhuge233/EpicBundle-FreeGames)(Python)
+    - [https://github.com/azhuge233/EpicBundle-FreeGames-dotnet](https://github.com/azhuge233/EpicBundle-FreeGames-dotnet)
+- Indiegala
+    - [https://github.com/azhuge233/IndiegalaFreebieNotifier](
+
 ## Requirements
 
 - .NET 5	

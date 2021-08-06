@@ -19,6 +19,10 @@ namespace EpicBundle_FreeGames_dotnet {
 			"\"limitless $10 epic coupons\"",
 			"add your comment."
 		};
+		private readonly List<string> urlList = new() {
+			"https://www.humblebundle.com/subscription",
+			"https://www.epicbundle.com/game-deal-voucher/"
+		};
 
 		public Parser(ILogger<Parser> logger) {
 			_logger = logger;
@@ -36,13 +40,12 @@ namespace EpicBundle_FreeGames_dotnet {
 
 			// add links to list
 			foreach (var each in links) {
-				if (!wordList.Exists(x => x == each.InnerText.ToString().ToLower())) {
-					string link = each.Attributes["href"].Value.ToString().Split('?')[0];
+				string possibleLink = each.Attributes["href"].Value.ToString().Split('?')[0];
+				if (!wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !urlList.Exists(x => x == possibleLink.ToLower())) {
+					if (possibleLink.Contains("#disqus_thread")) continue;
 
-					if (link.Contains("#disqus_thread")) continue;
-
-					_logger.LogInformation("Get possible link: {0}", link);
-					results.Add(link);
+					_logger.LogInformation("Get possible link: {0}", possibleLink);
+					results.Add(possibleLink);
 				}
 			}
 

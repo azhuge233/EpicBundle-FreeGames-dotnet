@@ -15,6 +15,8 @@
 - GOG
     - [https://github.com/azhuge233/GOGGiveawayNotifier](https://github.com/azhuge233/GOGGiveawayNotifier)
 
+Related Telegram Channel [@azhuge233_FreeGames](https://t.me/azhuge233_FreeGames)
+
 ## Requirements
 
 - .NET 5	

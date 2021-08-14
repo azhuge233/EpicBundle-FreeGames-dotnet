@@ -11,13 +11,17 @@ namespace EpicBundle_FreeGames_dotnet {
 	public class TgBot : INotifiable {
 		private readonly ILogger<TgBot> _logger;
 
+		#region debug strings
+		private readonly string debugSendMessage = "Send notification to Telegram";
+		#endregion
+
 		public TgBot(ILogger<TgBot> logger) {
 			_logger = logger;
 		}
 
 		public async Task SendMessage(NotifyConfig config, List<FreeGameRecord> records) {
 			if (records.Count == 0) {
-				_logger.LogInformation("No new notifications !");
+				_logger.LogInformation($"{debugSendMessage} : No new notifications !");
 				return;
 			}
 

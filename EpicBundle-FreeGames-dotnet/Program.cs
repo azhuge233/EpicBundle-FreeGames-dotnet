@@ -1,67 +1,41 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 using NLog;
-using NLog.Extensions.Logging;
+using EpicBundle_FreeGames_dotnet.Module;
 
 namespace EpicBundle_FreeGames_dotnet {
 	class Program {
 		private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-		private static readonly IConfigurationRoot config = new ConfigurationBuilder()
-				   .SetBasePath(System.IO.Directory.GetCurrentDirectory())
-				   .Build();
-		private static readonly string URL = "https://www.epicbundle.com/category/article/for-free/";
-
-		public static IServiceProvider BuildDi() {
-			return new ServiceCollection()
-				.AddTransient<Scraper>()
-				.AddTransient<Parser>()
-				.AddTransient<TgBot>()
-				.AddTransient<JsonOP>()
-				.AddLogging(loggingBuilder => {
-					// configure Logging with NLog
-					loggingBuilder.ClearProviders();
-					loggingBuilder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-					loggingBuilder.AddNLog(config);
-				})
-			   .BuildServiceProvider();
-		}
 
 		static async Task Main() {
 			try {
-				var servicesProvider = BuildDi();
+				var servicesProvider = DI.BuildDiAll();
 
 				logger.Info(" - Start Job -");
 
 				using (servicesProvider as IDisposable) {
-					// Get telegram bot token, chatID and previous records
 					var jsonOp = servicesProvider.GetRequiredService<JsonOP>();
-					var tgConfig = jsonOp.LoadConfig(); // token, chatID
-					var oldRecords = jsonOp.LoadData(); // old records
+					var config = jsonOp.LoadConfig();
+					servicesProvider.GetRequiredService<ConfigValidator>().CheckValid(config);
 
 					// Get page source
-					var scraper = servicesProvider.GetRequiredService<Scraper>();
-					var source = scraper.GetHtmlSource(URL);
+					var source = servicesProvider.GetRequiredService<Scraper>().GetHtmlSource();
 
-					// Parse page source
-					var parser = servicesProvider.GetRequiredService<Parser>();
-					var parseResult = parser.Parse(source, oldRecords);
-					var pushList = parseResult.Item1; // notification list
-					var recordList = parseResult.Item2; // new records list
-
-					// Write new records
-					jsonOp.WriteData(recordList);
+					// Parse source
+					var parseResult = servicesProvider.GetRequiredService<Parser>().Parse(source, jsonOp.LoadData());
 
 					//Send notifications
-					var tgBot = servicesProvider.GetRequiredService<TgBot>();
-					await tgBot.SendMessage(token: tgConfig["TOKEN"], chatID: tgConfig["CHAT_ID"], pushList, htmlMode: true);
+					await servicesProvider.GetRequiredService<NotifyOP>().Notify(config, parseResult.PushList);
+
+					// Write new records
+					jsonOp.WriteData(parseResult.RecordList);
 				}
 
 				logger.Info(" - Job End -\n\n");
 			} catch (Exception ex) {
-				logger.Error("{0}\n\n", ex.Message);
+				logger.Error(ex.Message);
+				logger.Error($"{ex.InnerException.Message}\n\n");
 			} finally {
 				LogManager.Shutdown();
 			}

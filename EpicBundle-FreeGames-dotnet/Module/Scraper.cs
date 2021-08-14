@@ -6,11 +6,13 @@ namespace EpicBundle_FreeGames_dotnet {
 	class Scraper: IDisposable {
 		private readonly ILogger<Scraper> _logger;
 
+		private const string Url = "https://www.epicbundle.com/category/article/for-free/";
+
 		public Scraper(ILogger<Scraper> logger) {
 			_logger = logger;
 		}
 
-		public HtmlDocument GetHtmlSource(string url) {
+		public HtmlDocument GetHtmlSource(string url = Url) {
 			try {
 				_logger.LogDebug("Getting page source");
 				var webGet = new HtmlWeb();

@@ -6,12 +6,12 @@ Demo Telegram Channel [@azhuge233_FreeGames](https://t.me/azhuge233_FreeGames)
 
 ## Build
 
-Publish as a trimmed single .exe file.
+Follow commands will publish project as a trimmed single executable file.
 
 ```shell
 git clone https://github.com/azhuge233/EpicBundle-FreeGames-dotnet.git
 cd EpicBundle-FreeGames-dotnet
-dotnet publish -c Release -o /your/path/here -r [win10-x64/osx-x64/linux-x64] -p:PublishTrimmed=true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+dotnet publish -c Release -o /your/path/here -r [win10-x64/osx-x64/linux-x64/...]
 ```
 
 ## Usage

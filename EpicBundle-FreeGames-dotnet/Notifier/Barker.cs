@@ -21,14 +21,9 @@ namespace EpicBundle_FreeGames_dotnet.Notifier {
 		}
 
 		public async Task SendMessage(NotifyConfig config, List<FreeGameRecord> records) {
-			if (records.Count == 0) {
-				_logger.LogInformation($"{debugSendMessage} : No new notifications !");
-				return;
-			}
-
 			try {
 				var sb = new StringBuilder();
-				string url = sb.AppendFormat(PushMessageFormat.barkUrlFormat, config.BarkAddress, config.BarkToken).ToString();
+				string url = sb.AppendFormat(NotifyFormatStrings.barkUrlFormat, config.BarkAddress, config.BarkToken).ToString();
 				var webGet = new HtmlWeb();
 
 				foreach (var record in records) {
@@ -36,9 +31,9 @@ namespace EpicBundle_FreeGames_dotnet.Notifier {
 					_logger.LogDebug($"{debugSendMessage} : {record.Title}");
 					await webGet.LoadFromWebAsync(
 						sb.Append(url)
-						.Append(PushMessageFormat.barkUrlTitle)
+						.Append(NotifyFormatStrings.barkUrlTitle)
 						.Append(HttpUtility.UrlEncode(record.ToBarkMessage()))
-						.AppendFormat(PushMessageFormat.barkUrlArgs, record.PossibleLinks.FirstOrDefault(), record.PossibleLinks.FirstOrDefault())
+						.AppendFormat(NotifyFormatStrings.barkUrlArgs, record.PossibleLinks.FirstOrDefault(), record.PossibleLinks.FirstOrDefault())
 						.ToString()
 					);
 				}

@@ -16,6 +16,7 @@ namespace EpicBundle_FreeGames_dotnet.Module {
 		#region debug strings
 		private readonly string debugNotify = "Notify";
 		private readonly string debugDisabledFormat = "{0} notify is disabled, skipping";
+		private readonly string debugNoNewNotifications = "No new notifications! Skipping";
 		#endregion
 
 		public NotifyOP(ILogger<NotifyOP> logger) {
@@ -23,6 +24,11 @@ namespace EpicBundle_FreeGames_dotnet.Module {
 		}
 
 		public async Task Notify(NotifyConfig config, List<FreeGameRecord> pushList) {
+			if (pushList.Count == 0) {
+				_logger.LogInformation(debugNoNewNotifications);
+				return;
+			}
+
 			try {
 				_logger.LogDebug(debugNotify);
 

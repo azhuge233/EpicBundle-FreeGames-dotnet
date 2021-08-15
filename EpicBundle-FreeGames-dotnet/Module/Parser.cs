@@ -13,24 +13,6 @@ namespace EpicBundle_FreeGames_dotnet {
 		private readonly IServiceProvider services = DI.BuildDiScraperOnly();
 		#endregion
 
-		#region black lists
-		private readonly List<string> wordList = new()  {
-			"humble choice bundle",
-			"follow us on facebook",
-			"more games for free here",
-			"\"limitless $10 epic coupons\"",
-			"add your comment."
-		};
-		private readonly List<string> urlList = new() {
-			"https://www.humblebundle.com/subscription"
-		};
-		#endregion
-
-		#region XPath strings
-		private readonly string articlesXPath = ".//div[contains(@class,\"post-column\")]/article/header/h2/a";
-		private readonly string linksXPath = ".//div[contains(@class,\"entry-content\")]/p/a";
-		#endregion
-
 		public Parser(ILogger<Parser> logger) {
 			_logger = logger;
 		}
@@ -42,13 +24,13 @@ namespace EpicBundle_FreeGames_dotnet {
 			_logger.LogDebug("Getting article page source");
 			var htmlDoc = services.GetRequiredService<Scraper>().GetHtmlSource(url);
 
-			var links = htmlDoc.DocumentNode.SelectNodes(linksXPath);
+			var links = htmlDoc.DocumentNode.SelectNodes(ParseString.linksXPath);
 
 			// add links to list
 			foreach (var each in links) {
 				string possibleLink = each.Attributes["href"].Value.Split('?')[0];
 				string data_wpel_link = each.Attributes["data-wpel-link"].Value;
-				if (data_wpel_link == "external" && !wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !urlList.Exists(x => x == possibleLink.ToLower())) {
+				if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => x == possibleLink.ToLower())) {
 					_logger.LogDebug("Get possible link: {0}", possibleLink);
 					results.Add(possibleLink);
 				}
@@ -63,7 +45,7 @@ namespace EpicBundle_FreeGames_dotnet {
 				_logger.LogDebug("Start parsing");
 				var parseResult = new ParseResult();
 
-				var articles = htmlDoc.DocumentNode.SelectNodes(articlesXPath);
+				var articles = htmlDoc.DocumentNode.SelectNodes(ParseString.articlesXPath);
 
 				foreach (var each in articles) {
 					// get article titles and links

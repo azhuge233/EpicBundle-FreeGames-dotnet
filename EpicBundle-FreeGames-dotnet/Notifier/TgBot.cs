@@ -20,16 +20,11 @@ namespace EpicBundle_FreeGames_dotnet {
 		}
 
 		public async Task SendMessage(NotifyConfig config, List<FreeGameRecord> records) {
-			if (records.Count == 0) {
-				_logger.LogInformation($"{debugSendMessage} : No new notifications !");
-				return;
-			}
-
 			var BotClient = new TelegramBotClient(token: config.TelegramToken);
 
 			try {
 				foreach (var record in records) {
-					_logger.LogDebug("Sending Message : {0}", record.Title);
+					_logger.LogDebug($"{debugSendMessage} : {record.Title}");
 					await BotClient.SendTextMessageAsync(
 						chatId: config.TelegramChatID,
 						text: record.ToTelegramMessage(),

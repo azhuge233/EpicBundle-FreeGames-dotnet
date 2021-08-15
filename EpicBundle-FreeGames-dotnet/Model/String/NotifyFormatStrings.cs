@@ -1,5 +1,5 @@
 ﻿namespace EpicBundle_FreeGames_dotnet.Model {
-	public static class PushMessageFormat {
+	public static class NotifyFormatStrings {
 		public static readonly string telegramFormat = "<b>EpicBundle 信息</b>\n\n" +
 			"<i>{0}</i>\n" +
 			"文章链接: {1}\n" +

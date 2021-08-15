@@ -31,10 +31,10 @@ namespace EpicBundle_FreeGames_dotnet.Notifier {
 
 				var sb = new StringBuilder();
 
-				message.Subject = sb.AppendFormat(PushMessageFormat.emailTitleFormat, pushList.Count).ToString();
+				message.Subject = sb.AppendFormat(NotifyFormatStrings.emailTitleFormat, pushList.Count).ToString();
 				sb.Clear();
 
-				pushList.ForEach(record => sb.AppendFormat(PushMessageFormat.emailBodyFormat, record.ToEmailMessage()));
+				pushList.ForEach(record => sb.AppendFormat(NotifyFormatStrings.emailBodyFormat, record.ToEmailMessage()));
 
 				message.Body = new TextPart("html") {
 					Text = sb.ToString()
@@ -49,11 +49,6 @@ namespace EpicBundle_FreeGames_dotnet.Notifier {
 		}
 
 		public async Task SendMessage(NotifyConfig config, List<FreeGameRecord> records) {
-			if (records.Count == 0) {
-				_logger.LogInformation($"{debugSendMessage} : No new notifications !");
-				return;
-			}
-
 			try {
 				_logger.LogDebug(debugSendMessage);
 

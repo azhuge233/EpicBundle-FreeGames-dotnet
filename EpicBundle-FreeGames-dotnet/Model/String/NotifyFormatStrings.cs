@@ -4,10 +4,16 @@
 			"<i>{0}</i>\n" +
 			"文章链接: {1}\n" +
 			"可能的领取链接:\n";
-		public static readonly string barkFormat = "{0}\n文章链接: {1}\n可能的领取链接:\n";
+		public static readonly string barkFormat = "{0}\n" +
+			"文章链接: {1}\n" +
+			"可能的领取链接:\n";
 		public static readonly string emailFormat = "<b>{0}</b><br>" +
 			"文章链接: {1}<br>" +
 			"可能的领取链接:<br>";
+		public static readonly string qqFormat = "EpicBundle 信息\n\n" +
+			"{0}\n" +
+			"文章链接: {1}\n" +
+			"可能的领取链接:\n";
 
 		public static readonly string possibleLinkFormat = "{0}\n";
 		public static readonly string possibleLinkFormatEmail = "{0}<br>";
@@ -22,5 +28,7 @@
 
 		public static readonly string emailTitleFormat = "{0} new free game(s) - EpicBundle-FreeGames";
 		public static readonly string emailBodyFormat = "<br>{0}";
+
+		public static readonly string qqUrlFormat = "http://{0}:{1}/send_private_msg?user_id={2}&message=";
 	}
 }

@@ -51,6 +51,12 @@ namespace EpicBundle_FreeGames_dotnet.Module {
 					await services.GetRequiredService<QQPusher>().SendMessage(config, pushList);
 				} else _logger.LogInformation(debugDisabledFormat, "QQ");
 
+				// PushPlus notifications
+				if (config.EnablePushPlus) {
+					_logger.LogInformation(debugEnabledFormat, "PushPlus");
+					await services.GetRequiredService<PushPlus>().SendMessage(config, pushList);
+				} else _logger.LogInformation(debugDisabledFormat, "PushPlus");
+
 				//Email notifications
 				if (config.EnableEmail) {
 					_logger.LogInformation(debugEnabledFormat, "Email");

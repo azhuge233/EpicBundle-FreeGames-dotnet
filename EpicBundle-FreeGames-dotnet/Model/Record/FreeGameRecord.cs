@@ -23,13 +23,19 @@ namespace EpicBundle_FreeGames_dotnet.Model {
 
 		public string ToEmailMessage() {
 			var sb = new StringBuilder().AppendFormat(NotifyFormatStrings.emailFormat, Title, Url);
-			PossibleLinks.ForEach(link => sb.AppendFormat(NotifyFormatStrings.possibleLinkFormatEmail, link));
+			PossibleLinks.ForEach(link => sb.AppendFormat(NotifyFormatStrings.possibleLinkFormatHtml, link));
 			return sb.ToString();
 		}
 
 		public string ToQQMessage() {
 			var sb = new StringBuilder().AppendFormat(NotifyFormatStrings.qqFormat, Title, Url);
 			PossibleLinks.ForEach(link => sb.AppendFormat(NotifyFormatStrings.possibleLinkFormat, link));
+			return sb.ToString();
+		}
+
+		public string ToPushPlusMessage() {
+			var sb = new StringBuilder().AppendFormat(NotifyFormatStrings.pushPlusFormat, Title, Url);
+			PossibleLinks.ForEach(link => sb.AppendFormat(NotifyFormatStrings.possibleLinkFormatHtml, link));
 			return sb.ToString();
 		}
 	}

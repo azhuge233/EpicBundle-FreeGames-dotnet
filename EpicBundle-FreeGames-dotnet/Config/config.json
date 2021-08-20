@@ -14,6 +14,9 @@
   "QQPort": 5700,
   "ToQQID": "",
 
+  "EnablePushPlus": false,
+  "PushPlusToken": "",
+
   "SMTPServer": "",
   "SMTPPort": 465,
   "FromEmailAddress": "",

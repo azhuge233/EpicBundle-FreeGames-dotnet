@@ -3,6 +3,7 @@
   "EnableBark": false,
   "EnableEmail": false,
   "EnableQQ": false,
+  "EnablePushPlus": false,
 
   "TelegramToken": "",
   "TelegramChatID": "",
@@ -14,7 +15,6 @@
   "QQPort": 5700,
   "ToQQID": "",
 
-  "EnablePushPlus": false,
   "PushPlusToken": "",
 
   "SMTPServer": "",

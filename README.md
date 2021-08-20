@@ -1,6 +1,6 @@
 # EpicBundle-FreeGames-dotnet
 
-Fetch free games info from EpicBundle, send notification through Telegram, Bark and Email.
+Fetch free games info from EpicBundle, send notification through Telegram, Bark, Email, QQ and PushPlus.
 
 Demo Telegram Channel [@azhuge233_FreeGames](https://t.me/azhuge233_FreeGames)
 

@@ -38,5 +38,11 @@ namespace EpicBundle_FreeGames_dotnet.Model {
 			PossibleLinks.ForEach(link => sb.AppendFormat(NotifyFormatStrings.possibleLinkFormatHtml, link));
 			return sb.ToString();
 		}
+
+		public string ToDingTalkMessage() {
+			var sb = new StringBuilder().AppendFormat(NotifyFormatStrings.dingTalkFormat, Title, Url);
+			PossibleLinks.ForEach(link => sb.AppendFormat(NotifyFormatStrings.possibleLinkFormat, link));
+			return sb.ToString();
+		}
 	}
 }

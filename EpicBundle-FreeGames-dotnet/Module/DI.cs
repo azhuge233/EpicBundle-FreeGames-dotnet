@@ -24,6 +24,7 @@ namespace EpicBundle_FreeGames_dotnet.Module {
                .AddTransient<Email>()
                .AddTransient<QQPusher>()
                .AddTransient<PushPlus>()
+               .AddTransient<DingTalk>()
                .AddLogging(loggingBuilder => {
                    // configure Logging with NLog
                    loggingBuilder.ClearProviders();
@@ -40,6 +41,7 @@ namespace EpicBundle_FreeGames_dotnet.Module {
                .AddTransient<Email>()
                .AddTransient<QQPusher>()
                .AddTransient<PushPlus>()
+               .AddTransient<DingTalk>()
                .AddLogging(loggingBuilder => {
                    // configure Logging with NLog
                    loggingBuilder.ClearProviders();

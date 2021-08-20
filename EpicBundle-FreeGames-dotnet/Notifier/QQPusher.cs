@@ -34,6 +34,7 @@ namespace EpicBundle_FreeGames_dotnet.Notifier {
 						new StringBuilder()
 							.Append(url)
 							.Append(HttpUtility.UrlEncode(record.ToQQMessage()))
+							.Append(HttpUtility.UrlEncode(NotifyFormatStrings.projectLink))
 							.ToString()
 					);
 				}

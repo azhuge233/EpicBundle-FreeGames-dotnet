@@ -28,6 +28,8 @@ namespace EpicBundle_FreeGames_dotnet.Notifier {
 
 				records.ForEach(record => sb.AppendFormat(NotifyFormatStrings.pushPlusBodyFormat, record.ToPushPlusMessage()));
 
+				sb.Append(NotifyFormatStrings.projectLinkHTML);
+
 				_logger.LogDebug($"Done: {debugCreateMessage}");
 				return HttpUtility.UrlEncode(sb.ToString());
 			} catch (Exception) {

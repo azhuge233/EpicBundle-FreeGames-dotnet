@@ -27,7 +27,7 @@ namespace EpicBundle_FreeGames_dotnet {
 					_logger.LogDebug($"{debugSendMessage} : {record.Title}");
 					await BotClient.SendTextMessageAsync(
 						chatId: config.TelegramChatID,
-						text: $"{record.ToTelegramMessage()}{NotifyFormatStrings.projectLink}",
+						text: $"{record.ToTelegramMessage()}{NotifyFormatStrings.projectLinkHTML.Replace("<br>", "\n")}",
 						parseMode: ParseMode.Html
 					);
 				}

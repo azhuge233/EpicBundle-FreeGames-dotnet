@@ -12,6 +12,7 @@ namespace EpicBundle_FreeGames_dotnet.Model {
 		public string ToTelegramMessage() {
 			var sb = new StringBuilder().AppendFormat(NotifyFormatStrings.telegramFormat, Title, Url);
 			PossibleLinks.ForEach(link => sb.AppendFormat(NotifyFormatStrings.possibleLinkFormat, link));
+			sb.Append(NotifyFormatStrings.telegramTag);
 			return sb.ToString();
 		}
 

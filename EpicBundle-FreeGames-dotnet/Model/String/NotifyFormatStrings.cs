@@ -28,6 +28,8 @@
 		public static readonly string possibleLinkFormat = "{0}\n";
 		public static readonly string possibleLinkFormatHtml = "<a href=\"{0}\">{0}</a><br>";
 
+		public static readonly string telegramTag = "\n#EpicBundle";
+
 		public static readonly string barkUrlFormat = "{0}/{1}/";
 		public static readonly string barkUrlTitle = "EpicBundle-FreeGames/";
 		public static readonly string barkUrlArgs = "?group=epicbundlefreegames" +

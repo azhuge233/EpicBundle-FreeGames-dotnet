@@ -30,7 +30,7 @@ namespace EpicBundle_FreeGames_dotnet {
 			foreach (var each in links) {
 				string possibleLink = each.Attributes["href"].Value.Split('?')[0];
 				string data_wpel_link = each.Attributes["data-wpel-link"].Value;
-				if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => x == possibleLink.ToLower())) {
+				if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
 					_logger.LogDebug("Get possible link: {0}", possibleLink);
 					results.Add(possibleLink);
 				}

@@ -11,7 +11,9 @@ namespace EpicBundle_FreeGames_dotnet.Model {
 			"add your comment."
 		};
 		public static readonly List<string> urlList = new() {
-			"https://www.humblebundle.com/subscription"
+			"https://www.humblebundle.com/subscription",
+			"https://www.youtube.com/watch",
+			"metacritic.com"
 		};
 		#endregion
 

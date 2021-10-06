@@ -13,31 +13,54 @@ namespace EpicBundle_FreeGames_dotnet {
 		private readonly IServiceProvider services = DI.BuildDiScraperOnly();
 		#endregion
 
+		#region debug strings
+		private readonly string debugTryGetLinks = "Getting article page source";
+		private readonly string debugRetryWithUlXPath = "Didn't get any links using linkspXPath, retrying with linksulXPath";
+		private readonly string debugGetPossibleLink = "Get possible link: {0}";
+		private readonly string debugGetGetUrlFromLinks = "Get possible link: {0}";
+		#endregion
+
 		public Parser(ILogger<Parser> logger) {
 			_logger = logger;
 		}
 
-		public List<string> TryGetLinks(string url) {
+		private List<string> GetUrlFromLinks(HtmlNodeCollection links) {
+			_logger.LogDebug(debugGetGetUrlFromLinks);
 			var results = new List<string>();
 
-			// getting all possible links
-			_logger.LogDebug("Getting article page source");
-			var htmlDoc = services.GetRequiredService<Scraper>().GetHtmlSource(url);
-
-			var links = htmlDoc.DocumentNode.SelectNodes(ParseString.linksXPath);
-
-			// add links to list
 			foreach (var each in links) {
 				string possibleLink = each.Attributes["href"].Value.Split('?')[0];
 				string data_wpel_link = each.Attributes["data-wpel-link"].Value;
 				if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
-					_logger.LogDebug("Get possible link: {0}", possibleLink);
+					_logger.LogDebug(debugGetPossibleLink, possibleLink);
 					results.Add(possibleLink);
 				}
 			}
 
-			_logger.LogDebug("Done");
+			_logger.LogDebug($"Done: {debugGetGetUrlFromLinks}");
 			return results;
+		}
+
+		public List<string> TryGetLinks(string url) { 
+			_logger.LogDebug(debugTryGetLinks);
+
+			try {
+				var htmlDoc = services.GetRequiredService<Scraper>().GetHtmlSource(url);
+
+				var result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linkspXPath));
+
+				if (result.Count == 0) {
+					_logger.LogDebug(debugRetryWithUlXPath);
+
+					result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linksulXPath));
+				}
+
+				_logger.LogDebug($"Done: {debugTryGetLinks}");
+				return result;
+			} catch (Exception) {
+				_logger.LogError($"Error: {debugGetGetUrlFromLinks}");
+				throw;
+			}
 		}
 
 		public ParseResult Parse(HtmlDocument htmlDoc, List<FreeGameRecord> records) {

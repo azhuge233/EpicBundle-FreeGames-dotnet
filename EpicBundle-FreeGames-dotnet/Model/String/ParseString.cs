@@ -19,7 +19,8 @@ namespace EpicBundle_FreeGames_dotnet.Model {
 
 		#region XPath strings
 		public static readonly string articlesXPath = ".//div[contains(@class,\"post-column\")]/article/header/h2/a";
-		public static readonly string linksXPath = ".//div[contains(@class,\"entry-content\")]/p/a";
+		public static readonly string linkspXPath = ".//div[contains(@class,\"entry-content\")]/p/a";
+		public static readonly string linksulXPath = ".//div[contains(@class,\"entry-content\")]/ul/li/a";
 		#endregion
 	}
 }

@@ -14,7 +14,7 @@ Follow commands will publish project as a trimmed executable file.
 git clone https://github.com/azhuge233/EpicBundle-FreeGames-dotnet.git
 cd EpicBundle-FreeGames-dotnet
 # windows, macOS
-dotnet publish -c Release -o /your/path/here -r [win10-x64/osx-x64/...] --sc
+dotnet publish -c Release -o /your/path/here -r [win-x64/osx-x64/...] --sc
 # set PublishTrimmed property to false in Linux
 dotnet publish -c Release -o /your/path/here -r linux-x64 --sc -p:PublishTrimmed=false
 

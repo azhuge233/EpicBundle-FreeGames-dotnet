@@ -6,7 +6,7 @@ Demo Telegram Channel [@azhuge233_FreeGames](https://t.me/azhuge233_FreeGames)
 
 ## Build
 
-Install dotnet 5.0 SDK first, you can find installation packages/guides [here](https://dotnet.microsoft.com/download).
+Install dotnet 6.0 SDK first, you can find installation packages/guides [here](https://dotnet.microsoft.com/download).
 
 Follow commands will publish project as a trimmed executable file.
 
@@ -14,9 +14,9 @@ Follow commands will publish project as a trimmed executable file.
 git clone https://github.com/azhuge233/EpicBundle-FreeGames-dotnet.git
 cd EpicBundle-FreeGames-dotnet
 # windows, macOS
-dotnet publish -c Release -o /your/path/here -r [win10-x64/osx-x64/...]
+dotnet publish -c Release -o /your/path/here -r [win-x64/osx-x64/...] --sc
 # set PublishTrimmed property to false in Linux
-dotnet publish -c Release -o /your/path/here -r linux-x64 -p:PublishTrimmed=false
+dotnet publish -c Release -o /your/path/here -r linux-x64 --sc -p:PublishTrimmed=false
 
 ```
 

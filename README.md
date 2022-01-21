@@ -22,7 +22,7 @@ dotnet publish -c Release -o /your/path/here -r linux-x64 --sc -p:PublishTrimmed
 
 ## Usage
 
-Fill your telegram bot token and chat ID in Config/config.json.
+Set your telegram bot token and chat ID in config.json.
 
 Check [wiki](https://github.com/azhuge233/SteamDB-FreeGames-dotnet/wiki/Config-Description) for more explanations, only notify varaibles are available for this project.
 

@@ -22,11 +22,13 @@ dotnet publish -c Release -o /your/path/here -r linux-x64 --sc -p:PublishTrimmed
 
 ## Usage
 
-Fill your telegram bot token and chat ID in Config/config.json.
+Set your telegram bot token and chat ID in config.json.
 
 Check [wiki](https://github.com/azhuge233/SteamDB-FreeGames-dotnet/wiki/Config-Description) for more explanations, only notify varaibles are available for this project.
 
-To schedule the program, use cron.d in Linux(macOS) or Task Scheduler in Windows.
+### Repeatedly running
+
+The program will not add while/for loop, it's a scraper. To schedule the program, use cron.d in Linux(macOS) or Task Scheduler in Windows.
 
 ## My Free Games Collection
 

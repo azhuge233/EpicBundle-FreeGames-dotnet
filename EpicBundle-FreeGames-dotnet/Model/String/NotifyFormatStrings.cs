@@ -22,6 +22,10 @@
 			"{0}\n" +
 			"文章链接: {1}\n" +
 			"可能的领取链接:\n";
+		public static readonly string pushDeerFormat = "EpicBundle 信息\n\n" +
+			"{0}\n" +
+			"文章链接: {1}\n" +
+			"可能的领取链接:\n";
 		#endregion
 
 		#region url, title format strings
@@ -48,6 +52,8 @@
 		public static readonly string pushPlusUrlFormat = "http://www.pushplus.plus/send?token={0}&template=html&title={1}&content=";
 
 		public static readonly string dingTalkUrlFormat = "https://oapi.dingtalk.com/robot/send?access_token={0}";
+
+		public static readonly string pushDeerUrlFormat = "https://api2.pushdeer.com/message/push?pushkey={0}&&text={1}";
 		#endregion
 
 		public static readonly string projectLink = "\n\nFrom https://github.com/azhuge233/EpicBundle-FreeGames-dotnet";

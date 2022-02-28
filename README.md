@@ -1,6 +1,6 @@
 # EpicBundle-FreeGames-dotnet
 
-A CLI tool fetches free games info from EpicBundle, sends notification through Telegram, Bark, Email, QQ, PushPlus and DingTalk.
+A CLI tool fetches free games info from EpicBundle, sends notification through Telegram, Bark, Email, QQ, PushPlus, DingTalk and PushDeer.
 
 Demo Telegram Channel [@azhuge233_FreeGames](https://t.me/azhuge233_FreeGames)
 

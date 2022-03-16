@@ -17,7 +17,8 @@ namespace EpicBundle_FreeGames_dotnet {
 		private readonly string debugTryGetLinks = "Getting article page source";
 		private readonly string debugRetryWithUlXPath = "Didn't get any links using linkspXPath, retrying with linksulXPath";
 		private readonly string debugGetPossibleLink = "Get possible link: {0}";
-		private readonly string debugGetGetUrlFromLinks = "Get possible link: {0}";
+		private readonly string debugGetUrlFromLinks = "Get possible link: {0}";
+		private readonly string debugNoLinkFound = "No link found";
 		#endregion
 
 		public Parser(ILogger<Parser> logger) {
@@ -25,20 +26,28 @@ namespace EpicBundle_FreeGames_dotnet {
 		}
 
 		private List<string> GetUrlFromLinks(HtmlNodeCollection links) {
-			_logger.LogDebug(debugGetGetUrlFromLinks);
-			var results = new List<string>();
+			_logger.LogDebug(debugGetUrlFromLinks);
+			try {
+				var results = new List<string>();
 
-			foreach (var each in links) {
-				string possibleLink = each.Attributes["href"].Value.Split('?')[0];
-				string data_wpel_link = each.Attributes["data-wpel-link"].Value;
-				if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
-					_logger.LogDebug(debugGetPossibleLink, possibleLink);
-					results.Add(possibleLink);
+				if (links != null) {
+					foreach (var each in links) {
+						string possibleLink = each.Attributes["href"].Value.Split('?')[0];
+						string data_wpel_link = each.Attributes["data-wpel-link"].Value;
+						if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
+							_logger.LogDebug(debugGetPossibleLink, possibleLink);
+							results.Add(possibleLink);
+						}
+					}
 				}
-			}
+				_logger.LogDebug(debugNoLinkFound);
 
-			_logger.LogDebug($"Done: {debugGetGetUrlFromLinks}");
-			return results;
+				_logger.LogDebug($"Done: {debugGetUrlFromLinks}");
+				return results;
+			} catch(Exception) {
+				_logger.LogError($"Error: {debugGetUrlFromLinks}");
+				throw;
+			}
 		}
 
 		public List<string> TryGetLinks(string url) { 
@@ -56,9 +65,10 @@ namespace EpicBundle_FreeGames_dotnet {
 				}
 
 				_logger.LogDebug($"Done: {debugTryGetLinks}");
+
 				return result;
 			} catch (Exception) {
-				_logger.LogError($"Error: {debugGetGetUrlFromLinks}");
+				_logger.LogError($"Error: {debugTryGetLinks}");
 				throw;
 			}
 		}

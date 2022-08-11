@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using System.Collections.Generic;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Logging;
@@ -32,9 +33,16 @@ namespace EpicBundle_FreeGames_dotnet {
 
 				if (links != null) {
 					foreach (var each in links) {
-						string possibleLink = each.Attributes["href"].Value.Split('?')[0];
-						string data_wpel_link = each.Attributes["data-wpel-link"].Value;
-						if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
+						string possibleLink = each.Attributes["href"].Value;
+
+						// Site removed data_wpel_link attribute
+						//string data_wpel_link = each.Attributes["data-wpel-link"].Value;
+						//if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
+
+						if (possibleLink.StartsWith(ParseString.adLink)) possibleLink = HttpUtility.UrlDecode(possibleLink.Split("url=")[1]);
+						else possibleLink = possibleLink.Split('?')[0];
+
+						if (!ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
 							_logger.LogDebug(debugGetPossibleLink, possibleLink);
 							results.Add(possibleLink);
 						}

@@ -26,6 +26,8 @@
 			"{0}\n" +
 			"文章链接: {1}\n" +
 			"可能的领取链接:\n";
+		public static readonly string discordFprmat = "文章链接: {0}\n" +
+			"可能的领取链接:\n";
 		#endregion
 
 		#region url, title format strings

@@ -69,6 +69,12 @@ namespace EpicBundle_FreeGames_dotnet.Module {
 					await services.GetRequiredService<PushDeer>().SendMessage(config, pushList);
 				} else _logger.LogInformation(debugDisabledFormat, "PushDeer");
 
+				// Discord notifications
+				if (config.EnableDiscord) {
+					_logger.LogInformation(debugEnabledFormat, "Discord");
+					await services.GetRequiredService<Discord>().SendMessage(config, pushList);
+				} else _logger.LogInformation(debugDisabledFormat, "Discord");
+
 				//Email notifications
 				if (config.EnableEmail) {
 					_logger.LogInformation(debugEnabledFormat, "Email");

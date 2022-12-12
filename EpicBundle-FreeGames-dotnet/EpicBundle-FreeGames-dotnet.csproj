@@ -7,7 +7,6 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishSingleFile>false</PublishSingleFile>
     <PublishTrimmed>false</PublishTrimmed>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
     <SatelliteResourceLanguages>en;zh-Hans</SatelliteResourceLanguages>
   </PropertyGroup>
 

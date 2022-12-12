@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using EpicBundle_FreeGames_dotnet.Module;
 using EpicBundle_FreeGames_dotnet.Model;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace EpicBundle_FreeGames_dotnet {
 	class Parser : IDisposable {
@@ -58,11 +60,11 @@ namespace EpicBundle_FreeGames_dotnet {
 			}
 		}
 
-		public List<string> TryGetLinks(string url) { 
+		public async Task<List<string>> TryGetLinks(string url) { 
 			_logger.LogDebug(debugTryGetLinks);
 
 			try {
-				var htmlDoc = services.GetRequiredService<Scraper>().GetHtmlSource(url);
+				var htmlDoc = await services.GetRequiredService<Scraper>().GetHtmlSourceWithPlaywright(url);
 
 				var result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linkspXPath));
 
@@ -81,7 +83,7 @@ namespace EpicBundle_FreeGames_dotnet {
 			}
 		}
 
-		public ParseResult Parse(HtmlDocument htmlDoc, List<FreeGameRecord> records) {
+		public async Task<ParseResult> Parse(HtmlDocument htmlDoc, List<FreeGameRecord> records) {
 			try {
 				_logger.LogDebug("Start parsing");
 				var parseResult = new ParseResult();
@@ -98,17 +100,20 @@ namespace EpicBundle_FreeGames_dotnet {
 					// save titles and links to List
 					var newRecord = new FreeGameRecord {
 						Title = title,
-						Url = link,
-						PossibleLinks = TryGetLinks(link)
+						Url = link
 					};
 
-					parseResult.RecordList.Add(newRecord);
+					if (records.Any(record => record.Url == newRecord.Url))
+						newRecord.PossibleLinks = records.Where(record => record.Url == newRecord.Url).First().PossibleLinks;
 
 					// push list
 					if (records.Count == 0 || !records.Exists(x => x.Title == title && x.Url == link)) {
 						_logger.LogInformation("Add {0} to push list\n", link);
+						newRecord.PossibleLinks = await TryGetLinks(link);
 						parseResult.PushList.Add(newRecord);
 					} else _logger.LogInformation("{0} is found in previous records, stop adding it to push list\n", link);
+
+					parseResult.RecordList.Add(newRecord);
 				}
 
 				_logger.LogDebug("Done");

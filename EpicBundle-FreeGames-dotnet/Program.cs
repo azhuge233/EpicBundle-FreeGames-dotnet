@@ -20,10 +20,10 @@ namespace EpicBundle_FreeGames_dotnet {
 					servicesProvider.GetRequiredService<ConfigValidator>().CheckValid(config);
 
 					// Get page source
-					var source = servicesProvider.GetRequiredService<Scraper>().GetHtmlSource();
+					var source = await servicesProvider.GetRequiredService<Scraper>().GetHtmlSourceWithPlaywright();
 
 					// Parse source
-					var parseResult = servicesProvider.GetRequiredService<Parser>().Parse(source, jsonOp.LoadData());
+					var parseResult = await servicesProvider.GetRequiredService<Parser>().Parse(source, jsonOp.LoadData());
 
 					//Send notifications
 					await servicesProvider.GetRequiredService<NotifyOP>().Notify(config, parseResult.PushList);

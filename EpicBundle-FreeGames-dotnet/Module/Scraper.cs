@@ -40,7 +40,7 @@ namespace EpicBundle_FreeGames_dotnet {
 				var page = await browser.NewPageAsync();
 
 				await page.GotoAsync(url);
-				await page.WaitForLoadStateAsync();
+				await page.WaitForLoadStateAsync(LoadState.Load);
 
 				var htmlDoc = new HtmlDocument();
 				htmlDoc.LoadHtml(await page.InnerHTMLAsync("*"));

@@ -19,9 +19,11 @@ namespace EpicBundle_FreeGames_dotnet {
 		#region debug strings
 		private readonly string debugTryGetLinks = "Getting article page source";
 		private readonly string debugRetryWithUlXPath = "Didn't get any links using linkspXPath, retrying with linksulXPath";
+		private readonly string debugRetryWithPXPath = "Didn't get any links using linksh2XPath, retrying with linkspXPath";
 		private readonly string debugGetPossibleLink = "Get possible link: {0}";
-		private readonly string debugGetUrlFromLinks = "Get possible link: {0}";
+		private readonly string debugGetUrlFromLinks = "Parsing Urls: {0}";
 		private readonly string debugNoLinkFound = "No link found";
+		private readonly string debugLinkFiltered = "{0} filtered";
 		#endregion
 
 		public Parser(ILogger<Parser> logger) {
@@ -33,22 +35,23 @@ namespace EpicBundle_FreeGames_dotnet {
 			try {
 				var results = new List<string>();
 
-				if (links != null) {
-					foreach (var each in links) {
-						string possibleLink = each.Attributes["href"].Value;
+				if (links == null) return results;
 
-						// Site removed data_wpel_link attribute
-						//string data_wpel_link = each.Attributes["data-wpel-link"].Value;
-						//if (data_wpel_link == "external" && !ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
+				foreach (var each in links) {
+					string possibleLink = each.Attributes["href"].Value;
 
-						if (possibleLink.StartsWith(ParseString.adLink)) possibleLink = HttpUtility.UrlDecode(possibleLink.Split("url=")[1]);
-						else possibleLink = possibleLink.Split('?')[0];
+					string data_wpel_link = each.Attributes["data-wpel-link"].Value ?? "external";
+					if (data_wpel_link != "external") continue;
 
-						if (!ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) && !ParseString.urlList.Exists(x => (x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x)))) {
-							_logger.LogDebug(debugGetPossibleLink, possibleLink);
-							results.Add(possibleLink);
-						}
-					}
+					if (ParseString.adDomains.Exists(possibleLink.Contains))
+						possibleLink = HttpUtility.UrlDecode(possibleLink.Split("url=")[1]);
+					else possibleLink = possibleLink.Split('?')[0];
+
+					if (!ParseString.wordList.Exists(x => x == each.InnerText.ToString().ToLower()) &&
+						!ParseString.urlList.Exists(x => x == possibleLink.ToLower() || possibleLink.ToLower().Contains(x))) {
+						_logger.LogDebug(debugGetPossibleLink, possibleLink);
+						results.Add(possibleLink);
+					} else _logger.LogDebug(debugLinkFiltered, possibleLink);
 				}
 				_logger.LogDebug(debugNoLinkFound);
 
@@ -66,7 +69,13 @@ namespace EpicBundle_FreeGames_dotnet {
 			try {
 				var htmlDoc = await services.GetRequiredService<Scraper>().GetHtmlSourceWithPlaywright(url);
 
-				var result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linkspXPath));
+				var result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linksh2XPath));
+
+				if (result.Count == 0) {
+					_logger.LogDebug(debugRetryWithPXPath);
+
+					result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linkspXPath));
+				}
 
 				if (result.Count == 0) {
 					_logger.LogDebug(debugRetryWithUlXPath);
@@ -76,7 +85,7 @@ namespace EpicBundle_FreeGames_dotnet {
 
 				_logger.LogDebug($"Done: {debugTryGetLinks}");
 
-				return result;
+				return result.Distinct().ToList();
 			} catch (Exception) {
 				_logger.LogError($"Error: {debugTryGetLinks}");
 				throw;

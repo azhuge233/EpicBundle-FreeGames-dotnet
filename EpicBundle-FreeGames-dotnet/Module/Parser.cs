@@ -32,9 +32,9 @@ namespace EpicBundle_FreeGames_dotnet {
 
 		private List<string> GetUrlFromLinks(HtmlNodeCollection links) {
 			_logger.LogDebug(debugGetUrlFromLinks);
-			try {
-				var results = new List<string>();
+			var results = new List<string>();
 
+			try {
 				if (links == null) return results;
 
 				foreach (var each in links) {
@@ -57,19 +57,21 @@ namespace EpicBundle_FreeGames_dotnet {
 
 				_logger.LogDebug($"Done: {debugGetUrlFromLinks}");
 				return results;
-			} catch(Exception) {
+			} catch (Exception) {
 				_logger.LogError($"Error: {debugGetUrlFromLinks}");
-				throw;
+				return results;
 			}
 		}
 
 		public async Task<List<string>> TryGetLinks(string url) { 
 			_logger.LogDebug(debugTryGetLinks);
 
-			try {
-				var htmlDoc = await services.GetRequiredService<Scraper>().GetHtmlSourceWithPlaywright(url);
+			var result = new List<string>();
 
-				var result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linksh2XPath));
+			try {
+				var htmlDoc = await services.GetRequiredService<Scraper>().GetHtmlSource(url);
+
+				result = GetUrlFromLinks(htmlDoc.DocumentNode.SelectNodes(ParseString.linksh2XPath));
 
 				if (result.Count == 0) {
 					_logger.LogDebug(debugRetryWithPXPath);
@@ -88,7 +90,7 @@ namespace EpicBundle_FreeGames_dotnet {
 				return result.Distinct().ToList();
 			} catch (Exception) {
 				_logger.LogError($"Error: {debugTryGetLinks}");
-				throw;
+				return result.Distinct().ToList();
 			}
 		}
 
@@ -99,31 +101,33 @@ namespace EpicBundle_FreeGames_dotnet {
 
 				var articles = htmlDoc.DocumentNode.SelectNodes(ParseString.articlesXPath);
 
-				foreach (var each in articles) {
-					// get article titles and links
-					var title = each.InnerText;
-					var link = each.Attributes["href"].Value;
+				if (articles != null) {
+					foreach (var each in articles) {
+						// get article titles and links
+						var title = each.InnerText;
+						var link = each.Attributes["href"].Value;
 
-					_logger.LogInformation("Found new info: {0}", title);
+						_logger.LogInformation("Found new info: {0}", title);
 
-					// save titles and links to List
-					var newRecord = new FreeGameRecord {
-						Title = title,
-						Url = link
-					};
+						// save titles and links to List
+						var newRecord = new FreeGameRecord {
+							Title = title,
+							Url = link
+						};
 
-					if (records.Any(record => record.Url == newRecord.Url))
-						newRecord.PossibleLinks = records.Where(record => record.Url == newRecord.Url).First().PossibleLinks;
+						if (records.Any(record => record.Url == newRecord.Url))
+							newRecord.PossibleLinks = records.Where(record => record.Url == newRecord.Url).First().PossibleLinks;
 
-					// push list
-					if (records.Count == 0 || !records.Exists(x => x.Title == title && x.Url == link)) {
-						_logger.LogInformation("Add {0} to push list\n", link);
-						newRecord.PossibleLinks = await TryGetLinks(link);
-						parseResult.PushList.Add(newRecord);
-					} else _logger.LogInformation("{0} is found in previous records, stop adding it to push list\n", link);
+						// push list
+						if (records.Count == 0 || !records.Exists(x => x.Title == title && x.Url == link)) {
+							_logger.LogInformation("Add {0} to push list\n", link);
+							newRecord.PossibleLinks = await TryGetLinks(link);
+							parseResult.PushList.Add(newRecord);
+						} else _logger.LogInformation("{0} is found in previous records, stop adding it to push list\n", link);
 
-					parseResult.RecordList.Add(newRecord);
-				}
+						parseResult.RecordList.Add(newRecord);
+					}
+				} else _logger.LogDebug("No articles detected");
 
 				_logger.LogDebug("Done");
 				return parseResult;

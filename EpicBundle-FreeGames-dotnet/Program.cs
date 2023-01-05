@@ -20,10 +20,10 @@ namespace EpicBundle_FreeGames_dotnet {
 					servicesProvider.GetRequiredService<ConfigValidator>().CheckValid(config);
 
 					// Get page source
-					var source = await servicesProvider.GetRequiredService<Scraper>().GetHtmlSourceWithPlaywright();
+					var htmlDoc = await servicesProvider.GetRequiredService<Scraper>().GetHtmlSource();
 
 					// Parse source
-					var parseResult = await servicesProvider.GetRequiredService<Parser>().Parse(source, jsonOp.LoadData());
+					var parseResult = await servicesProvider.GetRequiredService<Parser>().Parse(htmlDoc, jsonOp.LoadData());
 
 					//Send notifications
 					await servicesProvider.GetRequiredService<NotifyOP>().Notify(config, parseResult.PushList);
@@ -35,7 +35,7 @@ namespace EpicBundle_FreeGames_dotnet {
 				logger.Info(" - Job End -\n\n");
 			} catch (Exception ex) {
 				logger.Error(ex.Message);
-				logger.Error($"{ex.InnerException.Message}\n\n");
+				//logger.Error($"{ex.InnerException.Message}\n\n");
 			} finally {
 				LogManager.Shutdown();
 			}

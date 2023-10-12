@@ -48,6 +48,9 @@
 		public static readonly string emailBodyFormat = "<br>{0}";
 
 		public static readonly string qqUrlFormat = "http://{0}:{1}/send_private_msg?user_id={2}&message=";
+		public static readonly string qqRedUrlFormat = "ws://{0}:{1}";
+		public static readonly string qqRedWSConnectPacketType = "meta::connect";
+		public static readonly string qqRedWSSendPacketType = "message::send";
 
 		public static readonly string pushPlusTitleFormat = "{0} new free game(s) - EpicBundle-FreeGames";
 		public static readonly string pushPlusBodyFormat = "<br>{0}";

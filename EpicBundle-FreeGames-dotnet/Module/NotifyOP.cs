@@ -51,6 +51,12 @@ namespace EpicBundle_FreeGames_dotnet.Module {
 					await services.GetRequiredService<QQPusher>().SendMessage(config, pushList);
 				} else _logger.LogInformation(debugDisabledFormat, "QQ");
 
+				//QQ Red (Chronocat) notifications
+				if (config.EnableRed) {
+					_logger.LogInformation(debugEnabledFormat, "QQ Red (Chronocat)");
+					await services.GetRequiredService<QQRed>().SendMessage(config, pushList);
+				} else _logger.LogInformation(debugDisabledFormat, "QQ Red (Chronocat)");
+
 				// PushPlus notifications
 				if (config.EnablePushPlus) {
 					_logger.LogInformation(debugEnabledFormat, "PushPlus");

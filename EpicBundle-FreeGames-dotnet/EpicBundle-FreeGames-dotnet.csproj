@@ -8,6 +8,8 @@
     <PublishSingleFile>false</PublishSingleFile>
     <PublishTrimmed>false</PublishTrimmed>
     <SatelliteResourceLanguages>en;zh-Hans</SatelliteResourceLanguages>
+		<DebugSymbols>false</DebugSymbols>
+		<DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

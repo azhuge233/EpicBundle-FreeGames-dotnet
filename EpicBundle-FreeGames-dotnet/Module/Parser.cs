@@ -119,7 +119,7 @@ namespace EpicBundle_FreeGames_dotnet {
 							newRecord.PossibleLinks = records.Where(record => record.Url == newRecord.Url).First().PossibleLinks;
 
 						// push list
-						if (records.Count == 0 || !records.Exists(x => x.Title == title && x.Url == link)) {
+						if (records.Count == 0 || !records.Exists(x => x.Url == link)) {
 							_logger.LogInformation("Add {0} to push list\n", link);
 							newRecord.PossibleLinks = await TryGetLinks(link);
 							parseResult.PushList.Add(newRecord);

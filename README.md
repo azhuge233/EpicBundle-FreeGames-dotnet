@@ -1,5 +1,7 @@
 # EpicBundle-FreeGames-dotnet
 
+> EpicBundle hasn't been updated for quite a while, you can use [IndiegameBundlesNotifier](https://github.com/azhuge233/IndiegameBundlesNotifier) instead.
+
 A CLI tool fetches free games info from EpicBundle, sends notification through Telegram, Bark, Email, QQ, PushPlus, DingTalk, PushDeer and Discord.
 
 Demo Telegram Channel [@azhuge233_FreeGames](https://t.me/azhuge233_FreeGames)
@@ -31,9 +33,11 @@ The program will not add while/for loop, it's a scraper. To schedule the program
 - SteamDB
     - [https://github.com/azhuge233/SteamDB-FreeGames](https://github.com/azhuge233/SteamDB-FreeGames)(Archived)
     - [https://github.com/azhuge233/SteamDB-FreeGames-dotnet](https://github.com/azhuge233/SteamDB-FreeGames-dotnet)(Not maintained)
-- EpicBundle
+- EpicBundle (site not updated)
     - [https://github.com/azhuge233/EpicBundle-FreeGames](https://github.com/azhuge233/EpicBundle-FreeGames)(Archived)
     - [https://github.com/azhuge233/EpicBundle-FreeGames-dotnet](https://github.com/azhuge233/EpicBundle-FreeGames-dotnet)
+- IndiegameBundles
+  - [https://github.com/azhuge233/IndiegameBundlesNotifier](https://github.com/azhuge233/IndiegameBundlesNotifier)
 - Indiegala
     - [https://github.com/azhuge233/IndiegalaFreebieNotifier](https://github.com/azhuge233/IndiegalaFreebieNotifier)
 - GOG

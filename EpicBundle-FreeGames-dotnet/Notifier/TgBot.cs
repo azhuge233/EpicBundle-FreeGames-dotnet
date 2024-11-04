@@ -25,7 +25,7 @@ namespace EpicBundle_FreeGames_dotnet {
 			try {
 				foreach (var record in records) {
 					_logger.LogDebug($"{debugSendMessage} : {record.Title}");
-					await BotClient.SendTextMessageAsync(
+					await BotClient.SendMessage(
 						chatId: config.TelegramChatID,
 						text: $"{record.ToTelegramMessage()}{NotifyFormatStrings.projectLinkHTML.Replace("<br>", "\n")}",
 						parseMode: ParseMode.Html

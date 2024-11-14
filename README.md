@@ -1,6 +1,6 @@
 # EpicBundle-FreeGames-dotnet
 
-> EpicBundle hasn't been updated for quite a while, you can use [IndiegameBundlesNotifier](https://github.com/azhuge233/IndiegameBundlesNotifier) instead.
+> EpicBundle hasn't been updated for quite a while, use [IndiegameBundlesNotifier](https://github.com/azhuge233/IndiegameBundlesNotifier) instead.
 
 A CLI tool fetches free games info from EpicBundle, sends notification through Telegram, Bark, Email, QQ, PushPlus, DingTalk, PushDeer and Discord.
 
@@ -8,7 +8,7 @@ Demo Telegram Channel [@azhuge233_FreeGames](https://t.me/azhuge233_FreeGames)
 
 ## Build
 
-Install dotnet 8.0 SDK first, you can find installation packages/guides [here](https://dotnet.microsoft.com/download).
+Install dotnet 9.0 SDK first, you can find installation packages/guides [here](https://dotnet.microsoft.com/download).
 
 Follow commands will publish project as a executable file.
 
